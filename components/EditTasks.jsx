@@ -24,7 +24,7 @@ const EditTasks = ({ task }) => {
       const prettyDate = date.toLocaleDateString("en-US", options);
       const body = { description, prettyDate };
       const response = await axios.put(
-        `http://localhost:5500/tasks/${task.task_id}`,
+        `https://task-manager-backend-production-90d7.up.railway.app/tasks/${task.task_id}`,
         JSON.stringify(body),
         {
           headers: {

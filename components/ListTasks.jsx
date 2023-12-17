@@ -17,7 +17,9 @@ const ListTasks = () => {
 
   const getTasks = async () => {
     try {
-      const response = await axios.get("http://localhost:5500/tasks");
+      const response = await axios.get(
+        "https://task-manager-backend-production-90d7.up.railway.app/tasks"
+      );
       setTasks(response.data);
     } catch (err) {
       console.error(err.message);
@@ -27,7 +29,7 @@ const ListTasks = () => {
   const deleteTask = async (id) => {
     try {
       const deleteTask = await axios.delete(
-        `http://localhost:5500/tasks/${id}`
+        `https://task-manager-backend-production-90d7.up.railway.app/tasks/${id}`
       );
 
       setTasks(tasks.filter((task) => task.task_id !== id));
@@ -39,8 +41,6 @@ const ListTasks = () => {
   useEffect(() => {
     getTasks();
   }, []);
-
-  console.log(tasks);
 
   return (
     <div className="flex justify-center">

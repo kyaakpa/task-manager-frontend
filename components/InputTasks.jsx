@@ -17,7 +17,7 @@ const InputTasks = () => {
       const prettyDate = date.toLocaleDateString("en-US", options);
       const body = { description, prettyDate };
       const response = await axios.post(
-        "http://localhost:5500/tasks",
+        "https://task-manager-backend-production-90d7.up.railway.app/tasks",
         JSON.stringify(body),
         {
           headers: {
@@ -25,7 +25,6 @@ const InputTasks = () => {
           },
         }
       );
-      console.log(body);
       response.status === 200
         ? toast.success("Success", {
             position: toast.POSITION.TOP_RIGHT,
