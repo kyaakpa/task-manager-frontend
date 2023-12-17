@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Edit } from "@/components/Icons";
+import EditTasks from "./EditTasks";
 import {
   Table,
   TableBody,
@@ -47,30 +47,32 @@ const ListTasks = () => {
       <div className="w-2/3 px-8">
         <h2 className="text-3xl font-bold">All Tasks</h2>
 
-        <div className="h-[40vh] overflow-auto">
+        <div className="h-[60vh] overflow-auto">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px]">Tasks</TableHead>
-                <TableHead>Date Created</TableHead>
+                <TableHead>Finish By</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {tasks.map((task) => (
                 <TableRow key={task.task_id}>
-                  <TableCell className="font-medium w-[400px] overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    {task.description}
+                  <TableCell className="font-medium w-[400px]">
+                    <div className="truncate w-[400px]">{task.description}</div>
                   </TableCell>
-                  <TableCell>Jan 12, 2024</TableCell>
+                  <TableCell>{task.finishby}</TableCell>
                   <TableCell className="text-right flex justify-end items-center gap-3">
-                    <Edit />
-                    <button
+                    <span className="hover:bg-neutral-200 p-[5px] rounded self-center">
+                      <EditTasks task={task} />
+                    </span>
+                    <span
                       onClick={() => deleteTask(task.task_id)}
-                      className="border bg-neutral-100 hover:bg-red-700 hover:text-white text-sm hover:drop-shadow-sm px-3 font-medium rounded-lg text-red-600 p-[6px]"
+                      className="border bg-neutral-100 hover:bg-red-700 hover:text-white text-sm hover:drop-shadow-sm px-3 font-medium rounded-lg text-red-600 p-[6px] unselectable"
                     >
                       Delete
-                    </button>
+                    </span>
                   </TableCell>
                 </TableRow>
               ))}
