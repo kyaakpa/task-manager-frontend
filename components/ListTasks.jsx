@@ -5,7 +5,6 @@ import EditTasks from "./EditTasks";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,

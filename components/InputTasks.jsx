@@ -25,13 +25,15 @@ const InputTasks = () => {
           },
         }
       );
-      response.status === 200
-        ? toast.success("Success", {
-            position: toast.POSITION.TOP_RIGHT,
-          })
-        : toast.error("Failed", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
+      if (response.status === 200) {
+        toast.success("Success", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      } else {
+        toast.error("Failed", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     } catch (error) {
       console.log(error.message);
     }
