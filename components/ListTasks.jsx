@@ -50,7 +50,7 @@ const ListTasks = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Tasks</TableHead>
+                <TableHead>Tasks</TableHead>
                 <TableHead>Finish By</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
@@ -58,8 +58,8 @@ const ListTasks = () => {
             <TableBody>
               {tasks.map((task) => (
                 <TableRow key={task.task_id}>
-                  <TableCell className="font-medium w-[400px]">
-                    <div className="truncate w-[400px]">{task.description}</div>
+                  <TableCell className="font-medium max-sm:w-[200px] sm:w-[400px]">
+                    <div className="truncate max-sm:w-[200px] sm:w-[400px]">{task.description}</div>
                   </TableCell>
                   <TableCell>{task.finishby}</TableCell>
                   <TableCell className="text-right flex justify-end items-center gap-3">
