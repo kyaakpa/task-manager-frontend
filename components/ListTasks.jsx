@@ -43,7 +43,7 @@ const ListTasks = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="w-2/3 px-8">
+      <div className="lg:w-2/3 max-md:w-3/4 max-sm:w-full max-sm:w-full px-8">
         <h2 className="text-3xl font-bold">All Tasks</h2>
 
         <div className="h-[60vh] overflow-auto">
