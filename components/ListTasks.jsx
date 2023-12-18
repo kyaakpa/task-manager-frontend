@@ -58,8 +58,8 @@ const ListTasks = () => {
             <TableBody>
               {tasks.map((task) => (
                 <TableRow key={task.task_id}>
-                  <TableCell className="font-medium max-sm:w-[200px] sm:w-[400px]">
-                    <div className="truncate max-sm:w-[200px] sm:w-[400px]">{task.description}</div>
+                  <TableCell className="font-medium max-sm:w-[150px] sm:w-[400px]">
+                    <div className="truncate max-sm:w-[150px] sm:w-[400px]">{task.description}</div>
                   </TableCell>
                   <TableCell>{task.finishby}</TableCell>
                   <TableCell className="text-right flex justify-end items-center gap-3">
