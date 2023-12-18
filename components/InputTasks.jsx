@@ -40,7 +40,7 @@ const InputTasks = () => {
   };
   return (
     <div className="flex justify-center">
-      <div className="w-2/3 flex flex-col p-8">
+      <div className="lg:w-2/3 max-md:w-3/4 max-sm:w-full max-sm:w-full flex flex-col p-8">
         <h1 className="text-4xl font-bold flex items-center gap-3">
           Task Manager
           <List size={36} />
