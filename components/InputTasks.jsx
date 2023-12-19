@@ -46,12 +46,12 @@ const InputTasks = () => {
           <List size={36} />
         </h1>
         <div className="flex mt-4 [&>*]:text-neutral-600 [&>*]:text-sm">
-          <label className="w-80 ml-2">Task Description</label>
+          <label className="sm:w-80">Task Description</label>
           <label>Finish By</label>
         </div>
         <form className="flex items-center mt-[2px]" onSubmit={handleSubmit}>
           <input
-            className="border p-2 w-80 rounded-lg rounded-r-none"
+            className="border p-2 sm:w-80 rounded-lg rounded-r-none"
             placeholder="Task Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
