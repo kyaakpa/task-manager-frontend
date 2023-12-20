@@ -12,6 +12,7 @@ import { Edit } from "@/components/Icons";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Calendar } from "@/components/Icons";
 
 const EditTasks = ({ task }) => {
   const [description, setDescription] = useState(task.description);
@@ -55,19 +56,27 @@ const EditTasks = ({ task }) => {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Task</DialogTitle>
+            <DialogTitle className="text-left pl-2">Edit Task</DialogTitle>
           </DialogHeader>
           <input
             className="w-full border p-2 rounded-lg"
             placeholder={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <DatePicker
-            selected={date}
-            id="date-time"
-            onChange={(date) => setDate(date)}
-            className="p-2"
-          />
+          <div className="flex items-center place-self-end gap-3">
+            <span>Finish By </span>
+            <div className="flex items-center border rounded-lg max-w-[140px] text-right">
+              <label htmlFor="editDateTime" className="ml-1">
+                <Calendar fill={"#444"} />
+              </label>
+              <DatePicker
+                selected={date}
+                id="editDateTime"
+                onChange={(date) => setDate(date)}
+                className="p-2 max-w-[110px] text-right"
+              />
+            </div>
+          </div>
           <div className="flex justify-end gap-4">
             <DialogClose
               asChild

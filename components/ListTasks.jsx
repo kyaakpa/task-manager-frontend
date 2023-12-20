@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import EditTasks from "./EditTasks";
+
 import {
   Table,
   TableBody,
@@ -43,8 +44,8 @@ const ListTasks = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="lg:w-2/3 max-md:w-3/4 max-sm:w-full max-sm:w-full">
-        <h2 className="text-3xl font-bold pl-8">All Tasks</h2>
+      <div className="lg:w-2/3 max-md:w-3/4 max-sm:w-full max-sm:px-4">
+        <h2 className="text-3xl font-bold ml-4 mt-4">All Tasks</h2>
 
         <div className="h-[60vh] overflow-auto">
           <Table>
@@ -58,8 +59,10 @@ const ListTasks = () => {
             <TableBody>
               {tasks.map((task) => (
                 <TableRow key={task.task_id}>
-                  <TableCell className="font-medium max-sm:w-[150px] sm:w-[400px]">
-                    <div className="truncate max-sm:w-[150px] sm:w-[400px]">{task.description}</div>
+                  <TableCell className="font-medium max-sm:w-[150px] sm:w-[300px]">
+                    <div className="truncate max-sm:w-[150px] sm:w-[300px]">
+                      {task.description}
+                    </div>
                   </TableCell>
                   <TableCell>{task.finishby}</TableCell>
                   <TableCell className="text-right flex justify-end items-center gap-3">
