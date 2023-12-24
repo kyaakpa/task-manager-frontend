@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import EditTasks from "./EditTasks";
 
@@ -11,28 +11,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { setTasks, deleteTask } from "@/app/features/tasks/tasksSlice";
+import { useDispatch, useSelector } from "react-redux";
+import formatDate from "./functions/FomartDate";
 
 const ListTasks = () => {
-  const [tasks, setTasks] = useState([]);
+  // const [tasks, setTasks] = useState([]);
+  const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.tasks.list);
 
   const getTasks = async () => {
     try {
       const response = await axios.get(
-        "https://task-manager-backend-production-90d7.up.railway.app/tasks"
+        `${process.env.NEXT_PUBLIC_LOCAL_URL}/tasks`
       );
-      setTasks(response.data);
+      dispatch(setTasks(response.data));
     } catch (err) {
       console.error(err.message);
     }
   };
 
-  const deleteTask = async (id) => {
+  const delTask = async (id) => {
     try {
-      const deleteTask = await axios.delete(
-        `https://task-manager-backend-production-90d7.up.railway.app/tasks/${id}`
+      const delTask = await axios.delete(
+        `${process.env.NEXT_PUBLIC_LOCAL_URL}/tasks/${id}`
       );
 
-      setTasks(tasks.filter((task) => task.task_id !== id));
+      dispatch(deleteTask(id));
     } catch (err) {
       console.error(err.message);
     }
@@ -44,8 +49,10 @@ const ListTasks = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="lg:w-2/3 max-md:w-3/4 max-sm:w-full max-sm:px-4">
-        <h2 className="text-3xl font-bold ml-4 mt-4">All Tasks</h2>
+      <div className="lg:w-1/2 md:w-3/4 max-sm:w-full max-sm:px-4">
+        <h2 className="text-3xl font-bold ml-4 mt-4 tracking-tighter">
+          All Tasks
+        </h2>
 
         <div className="h-[60vh] overflow-auto">
           <Table>
@@ -64,14 +71,15 @@ const ListTasks = () => {
                       {task.description}
                     </div>
                   </TableCell>
-                  <TableCell>{task.finishby}</TableCell>
+                  <TableCell>{formatDate(task.finishby)}</TableCell>
                   <TableCell className="text-right flex justify-end items-center gap-3">
-                    <span className="hover:bg-neutral-200 p-[5px] rounded self-center">
-                      <EditTasks task={task} />
-                    </span>
+                    <EditTasks
+                      task={task}
+                      className="hover:bg-gray-600 border-blue-400  self-center"
+                    />
                     <span
-                      onClick={() => deleteTask(task.task_id)}
-                      className="border bg-neutral-100 hover:bg-red-700 hover:text-white text-sm hover:drop-shadow-sm px-3 font-medium rounded-lg text-red-600 p-[6px] unselectable"
+                      onClick={() => delTask(task.task_id)}
+                      className=" bg-red-100 hover:bg-red-700 hover:text-white text-sm hover:drop-shadow-sm px-3 font-medium rounded-lg text-red-600 p-1 unselectable"
                     >
                       Delete
                     </span>

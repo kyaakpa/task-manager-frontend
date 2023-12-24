@@ -2,22 +2,30 @@
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useState } from "react";
-import { List, ChevronDown } from "@/components/Icons";
-import DatePicker from "react-datepicker";
+import { List } from "@/components/Icons";
 import "react-datepicker/dist/react-datepicker.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setDescription } from "@/app/features/description/descriptionSlice";
+import { setDate } from "@/app/features/date/dateSlice";
+import { addTask } from "@/app/features/tasks/tasksSlice";
+import formatDate from "./functions/FomartDate";
 
 const InputTasks = () => {
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState(new Date());
+  // const [description, setDescription] = useState("");
+  // const [date, setDate] = useState(new Date());
+  const description = useSelector((state) => state.description.value);
+  const date = useSelector((state) => state.date.value);
+  const tasks = useSelector((state) => state.tasks.list);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const options = { year: "numeric", month: "short", day: "numeric" };
-      const prettyDate = date.toLocaleDateString("en-US", options);
-      const body = { description, prettyDate };
+      const body = { description, date };
+      console.log(body);
+
       const response = await axios.post(
-        "https://task-manager-backend-production-90d7.up.railway.app/tasks",
+        `${process.env.NEXT_PUBLIC_LOCAL_URL}/tasks`,
         JSON.stringify(body),
         {
           headers: {
@@ -29,6 +37,7 @@ const InputTasks = () => {
         toast.success("Success", {
           position: toast.POSITION.TOP_RIGHT,
         });
+        dispatch(addTask(body));
       } else {
         toast.error("Failed", {
           position: toast.POSITION.TOP_RIGHT,
@@ -38,54 +47,52 @@ const InputTasks = () => {
       console.log(error.message);
     }
   };
+
   return (
     <div className="flex justify-center">
-      <div className="lg:w-2/3 max-md:w-3/4 max-sm:w-full flex flex-col max-sm:p-8">
-        <h1 className="text-4xl font-bold flex items-center gap-3 my-4">
+      <div className="lg:w-1/2 md:w-3/4 max-sm:w-full flex flex-col max-md:p-8">
+        <h1 className="text-4xl font-bold flex items-center gap-3 my-4 tracking-tighter">
           Task Manager
           <List size={36} />
         </h1>
 
-        <h2 className="text-xl font-medium">Create Task</h2>
+        <h2 className="text-xl font-semibold pl-4 tracking-tight">
+          Create Task
+        </h2>
         <form
-          className="flex items-center sm:px-4 mt-2"
+          className="flex items-center justify-between gap-3 sm:px-4 mt-2"
           onSubmit={handleSubmit}
         >
           <div className="w-full ">
-            <label className="text-gray-800 pl-2 max-sm:text-sm">
+            <label className="text-gray-800 pl-2 text-sm">
               Task Description
             </label>
             <input
-              className="border p-2 w-full rounded-lg rounded-r-none"
+              className="border p-2 w-full rounded-lg"
               placeholder="Task Description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => dispatch(setDescription(e.target.value))}
               required
             />
           </div>
-          <div>
-            <label className="text-gray-800 pl-2 max-sm:text-sm">
-              Finish By
-            </label>
-            <div className="flex items-center  border-y border-r">
-              <DatePicker
-                selected={date}
+          <div className="flex gap-3">
+            <div>
+              <label className="text-gray-800 pl-2 text-sm">Finish By</label>
+              <input
+                type="date"
                 id="date-time"
-                onChange={(date) => setDate(date)}
-                className="w-[105px] p-2 outline-none "
+                onChange={(date) => dispatch(setDate(date.target.value))}
+                className=" p-2 border rounded-lg"
               />
-              <label htmlFor="date-time">
-                <ChevronDown />
-              </label>
             </div>
+            <button
+              type="submit"
+              onSubmit={handleSubmit}
+              className="p-[10px] tracking-wide font-medium px-4 rounded-lg  unselectable self-end bg-green-200 text-green-700"
+            >
+              Create
+            </button>
           </div>
-          <button
-            type="submit"
-            onSubmit={handleSubmit}
-            className="border border-l-0 p-2 px-3 rounded-lg rounded-l-none unselectable self-end"
-          >
-            Create
-          </button>
         </form>
       </div>
     </div>

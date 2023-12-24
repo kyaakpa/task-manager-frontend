@@ -25,7 +25,7 @@ const EditTasks = ({ task }) => {
       const prettyDate = date.toLocaleDateString("en-US", options);
       const body = { description, prettyDate };
       const response = await axios.put(
-        `https://task-manager-backend-production-90d7.up.railway.app/tasks/${task.task_id}`,
+        `${process.env.NEXT_PUBLIC_LOCAL_URL}/tasks/${task.task_id}`,
         JSON.stringify(body),
         {
           headers: {
@@ -48,11 +48,12 @@ const EditTasks = ({ task }) => {
       console.error(err.message);
     }
   };
+
   return (
     <>
       <Dialog>
         <DialogTrigger>
-          <Edit />
+          <Edit size={20} />
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
