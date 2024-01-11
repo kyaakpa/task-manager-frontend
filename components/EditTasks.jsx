@@ -7,16 +7,17 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import DatePicker from "react-datepicker";
 import { Edit } from "@/components/Icons";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Calendar } from "@/components/Icons";
+import { useDispatch } from "react-redux";
 
 const EditTasks = ({ task }) => {
   const [description, setDescription] = useState(task.description);
   const [date, setDate] = useState(new Date());
+
+  const dispatch = useDispatch();
 
   const updateTask = async (e) => {
     e.preventDefault();
@@ -41,9 +42,6 @@ const EditTasks = ({ task }) => {
         : toast.error("Failed", {
             position: toast.POSITION.TOP_RIGHT,
           });
-      setTimeout(() => {
-        window.location = "/";
-      }, 2000);
     } catch (err) {
       console.error(err.message);
     }
@@ -66,23 +64,19 @@ const EditTasks = ({ task }) => {
           />
           <div className="flex items-center place-self-end gap-3">
             <span>Finish By </span>
-            <div className="flex items-center border rounded-lg max-w-[140px] text-right">
-              <label htmlFor="editDateTime" className="ml-1">
-                <Calendar fill={"#444"} />
-              </label>
-              <DatePicker
-                selected={date}
-                id="editDateTime"
-                onChange={(date) => setDate(date)}
-                className="p-2 max-w-[110px] text-right"
-              />
-            </div>
+            <input
+              type="date"
+              defaultValue={new Date().toISOString().split("T")[0]}
+              id="date-time"
+              onChange={(e) => dispatch(setDate(e.target.value))}
+              className=" p-2 border rounded-lg"
+            />
           </div>
           <div className="flex justify-end gap-4">
             <DialogClose
               asChild
               type="button"
-              className="hover:bg-red-700 p-2 rounded-lg px-3 text-red-600 hover:text-white bg-neutral-100"
+              className="hover:bg-red-700 p-2 rounded-lg px-3 text-red-600 hover:text-white bg-red-100"
             >
               <button onClick={() => setDescription(task.description)}>
                 Cancel
@@ -91,8 +85,8 @@ const EditTasks = ({ task }) => {
             <DialogClose
               asChild
               type="submit"
-              onClick={(e) => updateTask(e)}
-              className="hover:bg-green-200 p-2 rounded-lg px-3 hover:text-green-700 bg-neutral-100"
+              onClick={(e) => dispatch(updateTask(e))}
+              className="hover:bg-green-200 p-2 rounded-lg px-3 hover:text-green-700 bg-green-100 text-green-700"
             >
               <button>Save Changes</button>
             </DialogClose>

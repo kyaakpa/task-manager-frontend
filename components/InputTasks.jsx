@@ -1,28 +1,22 @@
 "use client";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useState } from "react";
 import { List } from "@/components/Icons";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setDescription } from "@/app/features/description/descriptionSlice";
 import { setDate } from "@/app/features/date/dateSlice";
 import { addTask } from "@/app/features/tasks/tasksSlice";
-import formatDate from "./functions/FomartDate";
 
 const InputTasks = () => {
-  // const [description, setDescription] = useState("");
-  // const [date, setDate] = useState(new Date());
   const description = useSelector((state) => state.description.value);
   const date = useSelector((state) => state.date.value);
-  const tasks = useSelector((state) => state.tasks.list);
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const body = { description, date };
-      console.log(body);
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_LOCAL_URL}/tasks`,
@@ -33,18 +27,28 @@ const InputTasks = () => {
           },
         }
       );
-      if (response.status === 200) {
+
+      const { data, status } = response;
+
+      if (status === 200) {
+        const [{ task_id }] = data;
+        const newTask = {
+          task_id,
+          description,
+          finishby: date,
+        };
         toast.success("Success", {
           position: toast.POSITION.TOP_RIGHT,
         });
-        dispatch(addTask(body));
+
+        dispatch(addTask(newTask));
       } else {
         toast.error("Failed", {
           position: toast.POSITION.TOP_RIGHT,
         });
       }
-    } catch (error) {
-      console.log(error.message);
+    } catch (err) {
+      console.error(err.message);
     }
   };
 
@@ -80,15 +84,16 @@ const InputTasks = () => {
               <label className="text-gray-800 pl-2 text-sm">Finish By</label>
               <input
                 type="date"
+                defaultValue={new Date().toISOString().split("T")[0]}
                 id="date-time"
-                onChange={(date) => dispatch(setDate(date.target.value))}
+                onChange={(e) => dispatch(setDate(e.target.value))}
                 className=" p-2 border rounded-lg"
               />
             </div>
             <button
               type="submit"
               onSubmit={handleSubmit}
-              className="p-[10px] tracking-wide font-medium px-4 rounded-lg  unselectable self-end bg-green-200 text-green-700"
+              className="p-[10px] tracking-wide font-medium px-4 rounded-lg  unselectable self-end bg-green-200 text-green-700 hover:border-b-4 border-green-600"
             >
               Create
             </button>

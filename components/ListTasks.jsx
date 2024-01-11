@@ -13,10 +13,9 @@ import {
 } from "@/components/ui/table";
 import { setTasks, deleteTask } from "@/app/features/tasks/tasksSlice";
 import { useDispatch, useSelector } from "react-redux";
-import formatDate from "./functions/FomartDate";
+import formatDate from "./functions/formatDate";
 
 const ListTasks = () => {
-  // const [tasks, setTasks] = useState([]);
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks.list);
 
@@ -66,13 +65,15 @@ const ListTasks = () => {
             <TableBody>
               {tasks.map((task) => (
                 <TableRow key={task.task_id}>
-                  <TableCell className="font-medium max-sm:w-[150px] sm:w-[300px]">
+                  <TableCell className="font-medium tracking-tight p-3 max-sm:w-[150px] sm:w-[300px]">
                     <div className="truncate max-sm:w-[150px] sm:w-[300px]">
                       {task.description}
                     </div>
                   </TableCell>
-                  <TableCell>{formatDate(task.finishby)}</TableCell>
-                  <TableCell className="text-right flex justify-end items-center gap-3">
+                  <TableCell className="p-3 pl-4">
+                    {formatDate(task.finishby)}
+                  </TableCell>
+                  <TableCell className="text-right p-3 flex justify-end items-center gap-3">
                     <EditTasks
                       task={task}
                       className="hover:bg-gray-600 border-blue-400  self-center"
